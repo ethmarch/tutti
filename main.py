@@ -15,7 +15,7 @@ SPOTIFY_REDIRECT_URL = os.environ['SPOTIFY_REDIRECT_URL']
 PLAYLIST_ID = '5VnRiJPPpcQJNQpbak8XDB'
 SLACK_CHANNEL_NAME = 'tutti'
 
-r = redis.Redis(host='localhost', port=6379, password=None)
+r = redis.from_url(os.environ.get('REDIS_URL'))
 spotify_tokens = r.get('tokens').decode('utf-8')
 with open('.cache-' + SPOTIFY_USERNAME, 'w') as f:
     f.write(spotify_tokens)
