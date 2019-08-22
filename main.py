@@ -4,22 +4,19 @@ import tutti
 import re
 import spotipy
 import spotipy.util as util
-import redis
 
 SLACK_API_TOKEN = os.environ['SLACK_API_TOKEN']
 SPOTIFY_USERNAME = os.environ['SPOTIFY_USERNAME']
 SPOTIFY_CLIENT_ID = os.environ['SPOTIFY_CLIENT_ID']
 SPOTIFY_CLIENT_SECRET = os.environ['SPOTIFY_CLIENT_SECRET']
 SPOTIFY_REDIRECT_URL = os.environ['SPOTIFY_REDIRECT_URL']
+SPOTIFY_TOKENS = os.environ['SPOTIFY_TOKENS']
 
 PLAYLIST_ID = '5VnRiJPPpcQJNQpbak8XDB'
 SLACK_CHANNEL_NAME = 'tutti'
 
-r = redis.from_url(os.environ.get('REDIS_URL'))
-spotify_tokens = r.get('tokens').decode('utf-8')
 with open('.cache-' + SPOTIFY_USERNAME, 'w') as f:
-    f.write(spotify_tokens)
-
+    f.write(SPOTIFY_TOKENS)
 
 client = slack.WebClient(token=SLACK_API_TOKEN)
 
