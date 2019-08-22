@@ -9,7 +9,7 @@ def get_channel_id(client, channel_name):
     return channel['id']
 
 def get_channel_messages(client, channel_id):
-    messages = client.channels_history(channel=channel_id, inclusive=1, oldest=str(round(time.time() - 3600)))
+    messages = client.channels_history(channel=channel_id, inclusive=1, oldest=str(round(time.time() - 600)))
     return messages['messages']
 
 def get_bot_message_tracks(messages):
