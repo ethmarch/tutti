@@ -13,7 +13,7 @@ SPOTIFY_REDIRECT_URL = os.environ['SPOTIFY_REDIRECT_URL']
 SPOTIFY_TOKENS = os.environ['SPOTIFY_TOKENS']
 
 PLAYLIST_ID = '5VnRiJPPpcQJNQpbak8XDB'
-SLACK_CHANNEL_NAME = 'tutti'
+SLACK_CHANNEL_NAME = 'music'
 
 with open('.cache-' + SPOTIFY_USERNAME, 'w') as f:
     f.write(SPOTIFY_TOKENS)
@@ -31,9 +31,8 @@ bot_tracks = tutti.get_bot_message_tracks(messages)
 user_tracks = tutti.get_user_message_tracks(messages)
 all_tracks = bot_tracks + user_tracks
 
-username = SPOTIFY_USERNAME
 scope = 'playlist-modify-public'
-token = util.prompt_for_user_token(username, scope, 
+token = util.prompt_for_user_token(SPOTIFY_USERNAME, scope, 
                                     client_id=SPOTIFY_CLIENT_ID, 
                                     client_secret=SPOTIFY_CLIENT_SECRET, 
                                     redirect_uri=SPOTIFY_REDIRECT_URL)
