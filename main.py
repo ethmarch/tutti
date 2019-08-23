@@ -23,21 +23,23 @@ client = slack.WebClient(token=SLACK_API_TOKEN)
 channel_id = tutti.get_channel_id(client, SLACK_CHANNEL_NAME)
 messages = tutti.get_channel_messages(client, channel_id)
 
-if len(messages) == 0:
-    print('No new messages found')
-    quit()
+all_tracks = []
+if len(messages) != 0:
+    bot_tracks = tutti.get_bot_message_tracks(messages)
+    user_tracks = tutti.get_user_message_tracks(messages)
+    all_tracks = bot_tracks + user_tracks
 
-bot_tracks = tutti.get_bot_message_tracks(messages)
-user_tracks = tutti.get_user_message_tracks(messages)
-all_tracks = bot_tracks + user_tracks
 
-scope = 'playlist-modify-public'
-token = util.prompt_for_user_token(SPOTIFY_USERNAME, scope, 
-                                    client_id=SPOTIFY_CLIENT_ID, 
-                                    client_secret=SPOTIFY_CLIENT_SECRET, 
-                                    redirect_uri=SPOTIFY_REDIRECT_URL)
+if len(all_tracks) != 0:
+    scope = 'playlist-modify-public'
+    token = util.prompt_for_user_token(SPOTIFY_USERNAME, scope, 
+                                        client_id=SPOTIFY_CLIENT_ID, 
+                                        client_secret=SPOTIFY_CLIENT_SECRET, 
+                                        redirect_uri=SPOTIFY_REDIRECT_URL)
 
-sp = spotipy.Spotify(auth=token)
-result = sp.user_playlist_add_tracks(user=SPOTIFY_USERNAME, playlist_id=PLAYLIST_ID, tracks=all_tracks)
-print(result)
+    sp = spotipy.Spotify(auth=token)
+    result = sp.user_playlist_add_tracks(user=SPOTIFY_USERNAME, playlist_id=PLAYLIST_ID, tracks=all_tracks)
+    print(result)
+else:
+    print('No new tracks found')
 
