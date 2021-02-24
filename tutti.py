@@ -1,15 +1,14 @@
 import os
-import slack
 import re
 import time
 
 def get_channel_id(client, channel_name):
-    response = client.channels_list(exclude_archived=1)
+    response = client.conversations_list(exclude_archived=1)
     channel = [x for x in response['channels'] if x['name'] == channel_name][0]
     return channel['id']
 
 def get_channel_messages(client, channel_id):
-    messages = client.channels_history(channel=channel_id, inclusive=1, oldest=str(round(time.time() - 600)))
+    messages = client.conversations_history(channel=channel_id, inclusive=1, oldest=str(round(time.time() - 600)))
     return messages['messages']
 
 def get_bot_message_tracks(messages):

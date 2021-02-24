@@ -1,5 +1,5 @@
 import os
-import slack
+from slack_sdk import WebClient
 import tutti
 import re
 import spotipy
@@ -18,7 +18,7 @@ SLACK_CHANNEL_NAME = 'music'
 with open('.cache-' + SPOTIFY_USERNAME, 'w') as f:
     f.write(SPOTIFY_TOKENS)
 
-client = slack.WebClient(token=SLACK_API_TOKEN)
+client = WebClient(token=SLACK_API_TOKEN)
 
 channel_id = tutti.get_channel_id(client, SLACK_CHANNEL_NAME)
 messages = tutti.get_channel_messages(client, channel_id)
